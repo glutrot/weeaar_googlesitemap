@@ -358,8 +358,12 @@ class tx_weeaargooglesitemap_pi1 extends tslib_pibase {
 									$param["additionalParams"] .= '&tx_ttnews[year]=' . intval($ttnews->piVars['year']);
 								}
 
-								$link = preg_replace("/<a href=\"(.*)\".*/", "\\1", $this->cObj->typoLink($next, $param));
+								// only get URL without markup
+								$param["returnLast"] = 'url';
+
+								$link = $this->cObj->typoLink($next, $param);
 								$link = $this->url . ltrim($link, '/');
+								$link = htmlspecialchars($link);
 
 								$string = "   <loc>{$link}</loc>\n";
 								$string .= "   <lastmod>" . gmdate("Y-m-d\TH:i:s\Z", $row["tstamp"]) . "</lastmod>\n";
